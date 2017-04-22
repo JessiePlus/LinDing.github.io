@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title></title>
+    <description>Newsmore</description>
+    <link>http://localhost:4000//</link>
+    <atom:link href="http://localhost:4000//feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sat, 22 Apr 2017 13:25:11 +0800</pubDate>
+    <lastBuildDate>Sat, 22 Apr 2017 13:25:11 +0800</lastBuildDate>
+    <generator>Jekyll v3.4.3</generator>
+    
+      <item>
+        <title>Newsmore</title>
+        <description>
+</description>
+        <pubDate>Sat, 22 Apr 2017 10:10:03 +0800</pubDate>
+        <link>http://localhost:4000//newsmore/2017/04/22/Newsmore-iOS-APP.html</link>
+        <guid isPermaLink="true">http://localhost:4000//newsmore/2017/04/22/Newsmore-iOS-APP.html</guid>
+        
+        
+        <category>Newsmore</category>
+        
+      </item>
+    
+      <item>
+        <title>Masonry进阶用法</title>
+        <description>&lt;h1 id=&quot;masonry进阶用法&quot;&gt;Masonry进阶用法&lt;/h1&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;h2 id=&quot;uiedgeinsets的使用&quot;&gt;UIEdgeInsets的使用&lt;/h2&gt;
+    &lt;p&gt;//相对于父视图边距为10
+ UIEdgeInsets padding = UIEdgeInsetsMake(10, 10, 10, 10);
+ [self.avatarView mas_makeConstraints:^(MASConstraintMaker *make) {
+     make.top.equalTo(superview.mas_top).with.offset(padding.top); //with is an optional semantic filler
+     make.left.equalTo(superview.mas_left).with.offset(padding.left);
+     make.bottom.equalTo(superview.mas_bottom).with.offset(-padding.bottom);
+     make.right.equalTo(superview.mas_right).with.offset(-padding.right);
+ }];&lt;/p&gt;
+
+    &lt;p&gt;//相对于父视图边距为10简洁写法
+ [self.avatarView mas_makeConstraints:^(MASConstraintMaker *make) {
+     make.edges.equalTo(superview).with.insets(padding);
+ }];&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;h2 id=&quot;priority的使用&quot;&gt;Priority的使用&lt;/h2&gt;
+    &lt;p&gt;[self.avatarView mas_makeConstraints:^(MASConstraintMaker *make) {
+     make.left.greaterThanOrEqualTo(self.view.mas_left).with.priorityLow();
+     make.top.equalTo(self.view.mas_top).with.priority(600);
+ }];&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;h2 id=&quot;修改返回的masconstraint&quot;&gt;修改返回的MASConstraint&lt;/h2&gt;
+    &lt;p&gt;MASConstraint *widthConstraint;
+ [view mas_makeConstraints:^(MASConstraintMaker *make) {
+     widthConstraint = make.width.equalTo(@(imageViewSize.width));
+ }];
+ width.equalTo(@20);&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;h2 id=&quot;nslayoutconstraint搭配masconstraint使用&quot;&gt;NSLayoutConstraint搭配MASConstraint使用&lt;/h2&gt;
+    &lt;p&gt;UIView *containerView;
+ NSLayoutConstraint *widthConstraint;//containerView的约束
+ [view mas_makeConstraints:^(MASConstraintMaker *make{
+     make.width.equalTo(containerView.mas_width).multipliedBy(0.5);
+ }];&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;h2 id=&quot;动态计算uitableviewcell高度&quot;&gt;动态计算UITableViewCell高度&lt;/h2&gt;
+
+    &lt;p&gt;@interface DLFeedsViewController ()&amp;lt;UITableViewDelegate, UITableViewDataSource&amp;gt;
+ //用户信息列表
+ @property (nonatomic) UITableView &lt;em&gt;feedsListView;
+ @property (nonatomic) NSMutableArray &amp;lt;DLFeed *&amp;gt;&lt;/em&gt;feedsList;
+ //计算高度
+ @property (nonatomic, strong) UITableViewCell *templateCell;
+ @end&lt;/p&gt;
+
+    &lt;p&gt;@implementation DLFeedsViewController
+ -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {&lt;/p&gt;
+
+    &lt;pre&gt;&lt;code&gt; NSInteger section = indexPath.section;
+ NSInteger row = indexPath.row;
+
+ DLFeed *feedInfo = self.feedsList[row];
+    
+ DLFeedInfoCell *cell = (DLFeedInfoCell *)self.templateCell;
+ [cell.nickNameLab setText:feedInfo.nickName];
+ [cell.msgContentLab setText:feedInfo.msgContent];
+
+ CGFloat cellHeight = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 0.5f;;
+    
+ return cellHeight;
+&lt;/code&gt;&lt;/pre&gt;
+
+    &lt;p&gt;}
+ @end&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;h2 id=&quot;使用mas_toplayoutguide和mas_bottomlayoutguide处理导航栏和标签栏&quot;&gt;使用mas_topLayoutGuide和mas_bottomLayoutGuide处理导航栏和标签栏&lt;/h2&gt;
+    &lt;p&gt;make.top.equalTo(self.mas_topLayoutGuide);
+ make.bottom.equalTo(self.mas_bottomLayoutGuide);&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;h2 id=&quot;baseline&quot;&gt;Baseline&lt;/h2&gt;
+    &lt;p&gt;baseline，翻译过来就是“基线”，在Autolayout里面对应着 NSLayoutFormatAlignAllBaseline ，也是一种对齐的标准。&lt;br /&gt;
+例如，UIButton的baseline就是内部的文字。对于自定义的View来说，baseline默认就是整个view的底部，如果想改变baseline的话，可以重写UIView的 viewForBaselineLayout ，返回当作baseline的view即可。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;h2 id=&quot;仿twitter头部缩放效果&quot;&gt;仿Twitter头部缩放效果&lt;/h2&gt;
+    &lt;p&gt;@property (nonatomic) UIImageView *headerImageView;
+ @property (strong, nonatomic) MASConstraint * headerImageViewHeightConstraint;&lt;/p&gt;
+
+    &lt;p&gt;-(UIImageView *)headerImageView {
+     if(!_headerImageView) {
+     _headerImageView = [[UIImageView alloc] init];
+         _headerImageView.contentMode = UIViewContentModeScaleAspectFill;&lt;/p&gt;
+
+    &lt;pre&gt;&lt;code&gt; }
+ return _headerImageView;  }
+&lt;/code&gt;&lt;/pre&gt;
+
+    &lt;p&gt;[self. headerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+     make.left.and.right.equalTo(self.view);
+     make.top.equalTo(self.mas_topLayoutGuideBottom);
+     _headerImageViewHeightConstraint = make.height.equalTo(@100);
+ }];&lt;/p&gt;
+    &lt;ul&gt;
+      &lt;li&gt;(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+  if (scrollView.contentOffset.y &amp;lt; 0) {
+      self.headerImageViewHeightConstraint.equalTo(@(100 - scrollView.contentOffset.y));
+  } else {
+      self.headerImageViewHeightConstraint.equalTo(@100);
+  }
+ }&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;h2 id=&quot;uitableview的beginupdatesendupdates&quot;&gt;&lt;code&gt;UITableView&lt;/code&gt;的&lt;code&gt;beginUpdates&lt;/code&gt;&lt;code&gt;endUpdates&lt;/code&gt;&lt;/h2&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;h2 id=&quot;masconstraint的activatedeactivateinstalluninstall方法&quot;&gt;&lt;code&gt;MASConstraint&lt;/code&gt;的&lt;code&gt;activate&lt;/code&gt;&lt;code&gt;deactivate&lt;/code&gt;&lt;code&gt;install&lt;/code&gt;&lt;code&gt;uninstall&lt;/code&gt;方法&lt;/h2&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;h2 id=&quot;优先级的用法&quot;&gt;优先级的用法&lt;/h2&gt;
+    &lt;p&gt;可以通过设定不同约束的优先级的方法来处理约束冲突问题&lt;/p&gt;
+
+    &lt;p&gt;@property (nonatomic, strong) MASConstraint *leftConstraint;
+ // 优先级要比边界条件低
+_leftConstraint = make.centerX.equalTo(_containerView.mas_left).with.offset(50).priorityHigh();&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;h2 id=&quot;高级调试技巧&quot;&gt;高级调试技巧&lt;/h2&gt;
+    &lt;ul&gt;
+      &lt;li&gt;不可满足的约束条件
+遇到不可满足的约束条件只能在输入的日志中看到视图的内存地址。
+        &lt;pre&gt;&lt;code&gt;(lldb) po 0x7731880
+&lt;/code&gt;&lt;/pre&gt;
+        &lt;pre&gt;&lt;code&gt;$0 = 124983424 &amp;lt;UIView: 0x7731880; frame = (90 -50; 80 100);
+layer = &amp;lt;CALayer: 0x7731450&amp;gt;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+        &lt;pre&gt;&lt;code&gt;(lldb) po [0x7731880 superview]  
+&lt;/code&gt;&lt;/pre&gt;
+        &lt;pre&gt;&lt;code&gt;$2 = 0x07730fe0 &amp;lt;UIView: 0x7730fe0; frame = (32 128; 259 604);
+layer = &amp;lt;CALayer: 0x7731150&amp;gt;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+        &lt;pre&gt;&lt;code&gt;(lldb) po [[0x7731880 superview] recursiveDescription]  
+&lt;/code&gt;&lt;/pre&gt;
+        &lt;pre&gt;&lt;code&gt;$3 = 0x07117ac0 &amp;lt;UIView: 0x7730fe0; frame = (32 128; 259 604); layer = &amp;lt;CALayer: 0x7731150&amp;gt;&amp;gt;
+| &amp;lt;UIView: 0x7731880; frame = (90 -50; 80 100); layer = &amp;lt;CALayer: 0x7731450&amp;gt;&amp;gt;
+| &amp;lt;UIView: 0x7731aa0; frame = (90 101; 80 100); layer = &amp;lt;CALayer: 0x7731c60&amp;gt;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+        &lt;p&gt;可以在控制台修改有问题的视图&lt;/p&gt;
+        &lt;pre&gt;&lt;code&gt;(lldb) expr ((UIView *)0x7731880).backgroundColor = [UIColor purpleColor]  
+&lt;/code&gt;&lt;/pre&gt;
+        &lt;p&gt;这里有&lt;a href=&quot;https://twitter.com/danielboedewadt&quot;&gt;Daniel&lt;/a&gt;的一个调试Auto Layout的范例：&lt;a href=&quot;https://github.com/objcio/issue-3-auto-layout-debugging&quot;&gt;https://github.com/objcio/issue-3-auto-layout-debugging&lt;/a&gt;&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;有歧义的布局&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;–&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        <pubDate>Sat, 22 Apr 2017 10:10:03 +0800</pubDate>
+        <link>http://localhost:4000//%E8%87%AA%E5%8A%A8%E5%B8%83%E5%B1%80/2017/04/22/Masonry-upper.html</link>
+        <guid isPermaLink="true">http://localhost:4000//%E8%87%AA%E5%8A%A8%E5%B8%83%E5%B1%80/2017/04/22/Masonry-upper.html</guid>
+        
+        
+        <category>自动布局</category>
+        
+      </item>
+    
+      <item>
+        <title>AutoLayout的基础</title>
+        <description>&lt;h1 id=&quot;autolayout的基础&quot;&gt;AutoLayout的基础&lt;/h1&gt;
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;h2 id=&quot;常用关键字&quot;&gt;常用关键字&lt;/h2&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;HuggingPriority&lt;/code&gt; 阻止自己变大的优先级，值越大越固定。&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;CompressionResistancePriority&lt;/code&gt; 阻止自己变小的优先级，值越大越固定。&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;setContentCompressionResistancePriority&lt;/code&gt;通常被用来保障内容优先显示。&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;automaticallyAdjustsScrollViewInsets&lt;/code&gt; 根据按所在界面的status bar，navigationbar，与tabbar的高度，自动调整scrollview的 inset,设置为no，不让viewController调整。&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;preferredMaxLayoutWidth&lt;/code&gt;用来制定最大的宽，一般用在多行的UILabel中&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;systemLayoutSizeFittingSize&lt;/code&gt;方法能够获得UIView的高度&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code&gt;topLayoutGuide&lt;/code&gt;和&lt;code&gt;bottomLayoutGuide&lt;/code&gt;，这个两个主要是方便获取UINavigationController和UITabBarController的头部视图区域和底部视图区域。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;h2 id=&quot;autolayout关于更新的几个方法的区别&quot;&gt;AutoLayout关于更新的几个方法的区别&lt;/h2&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;setNeedsLayout&lt;/code&gt;告知页面需要更新，但是不会立刻开始更新。执行后会立刻调用layoutSubviews。&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;layoutIfNeeded&lt;/code&gt;告知页面布局立刻更新。所以一般都会和setNeedsLayout一起使用。如果希望立刻生成新的frame需要调用此方法，利用这点一般布局动画可以在更新布局后直接使用这个方法让动画生效。&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;layoutSubviews&lt;/code&gt;系统重写布局&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;setNeedsUpdateConstraints&lt;/code&gt;告知需要更新约束，但是不会立刻开始&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;updateConstraintsIfNeeded&lt;/code&gt;告知立刻更新约束&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;updateConstraints&lt;/code&gt;系统更新约束&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;intrinsicContentSize&lt;/code&gt;，就是获取这个View的固有的，内在的，本质的的内容大小。简单说，就是Autolayout布局系统是不知道自定义View的内容大小的，所以自定义View可以重写这个方法，返回自己的内容大小，交由Autolayout布局系统去计算布局。并且，这个大小是不能依赖外部的大小的。&lt;/li&gt;
+  &lt;li&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        <pubDate>Sat, 22 Apr 2017 10:10:03 +0800</pubDate>
+        <link>http://localhost:4000//%E8%87%AA%E5%8A%A8%E5%B8%83%E5%B1%80/2017/04/22/AutoLayout-base.html</link>
+        <guid isPermaLink="true">http://localhost:4000//%E8%87%AA%E5%8A%A8%E5%B8%83%E5%B1%80/2017/04/22/AutoLayout-base.html</guid>
+        
+        
+        <category>自动布局</category>
+        
+      </item>
+    
+  </channel>
+</rss>
