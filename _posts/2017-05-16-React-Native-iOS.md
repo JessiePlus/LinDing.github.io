@@ -15,6 +15,7 @@ React Native的学习主要以分析faceboook的开源APP F8为主，这是一�
 
 [React Native文档](http://reactnative.cn/docs/0.44/)
 
+[React文档](http://www.css88.com/react/docs/hello-world.html)
 
 
 
